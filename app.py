@@ -13,7 +13,7 @@ st.set_page_config(page_title="PerformEdge", layout="wide")
 # -----------------------------
 @st.cache_data
 def load_data():
-    return pd.read_csv("final_data.csv")
+    return pd.read_csv("Final_Data.csv")
 
 df = load_data()
 
