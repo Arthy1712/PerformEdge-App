@@ -72,7 +72,37 @@ def show_tableau_dashboard():
     else:  # Admin & HR
         tableau_url = BASE_TABLEAU_URL
 
-    components.iframe(tableau_url, height=900, scrolling=True)
+    import streamlit.components.v1 as components
+
+def show_tableau_dashboard():
+    role = st.session_state.role
+    emp_id = st.session_state.employee_id
+
+    if role == "Employee":
+        tableau_url = f"{BASE_TABLEAU_URL}?EmpID={emp_id}"
+    elif role == "Manager":
+        tableau_url = f"{BASE_TABLEAU_URL}?Manager_ID={emp_id}"
+    else:
+        tableau_url = BASE_TABLEAU_URL
+
+    tableau_embed = f"""
+    <script type='text/javascript' 
+        src='https://public.tableau.com/javascripts/api/viz_v1.js'>
+    </script>
+
+    <div class='tableauPlaceholder' style='width: 100%; height: 900px;'>
+        <object class='tableauViz' width='100%' height='900'>
+            <param name='host_url' value='https://public.tableau.com/' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='{tableau_url.split("views/")[1]}' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+        </object>
+    </div>
+    """
+
+    components.html(tableau_embed, height=900)
 
 # ----------------------------
 # LOGIN PAGE
