@@ -9,8 +9,8 @@ import streamlit.components.v1 as components
 DB_PATH = "users.db"
 
 # 🔁 PASTE YOUR TABLEAU PUBLIC URL BELOW
-BASE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/EmpPerfAnalyticsDashboard?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
-
+HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/EmpPerfAnalyticsDashboard?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
+MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
 # ----------------------------
 # PASSWORD HASH FUNCTION
 # ----------------------------
@@ -67,10 +67,10 @@ def show_tableau_dashboard():
         tableau_url = f"{BASE_TABLEAU_URL}?EmpID={emp_id}"
 
     elif role == "Manager":
-        tableau_url = f"{BASE_TABLEAU_URL}?Manager_ID={emp_id}"
+        tableau_url = f"{MANAGER_TABLEAU_URL}?Manager_ID={emp_id}"
 
     else:  # Admin & HR
-        tableau_url = BASE_TABLEAU_URL
+        tableau_url = HR_TABLEAU_URL
 
     import streamlit.components.v1 as components
 
