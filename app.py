@@ -9,7 +9,7 @@ import streamlit.components.v1 as components
 DB_PATH = "users.db"
 
 # 🔁 PASTE YOUR TABLEAU PUBLIC URL BELOW
-HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/EmpPerfAnalyticsDashboard?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
+HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
 MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
 # ----------------------------
 # PASSWORD HASH FUNCTION
