@@ -74,17 +74,6 @@ def show_tableau_dashboard():
 
     import streamlit.components.v1 as components
 
-def show_tableau_dashboard():
-    role = st.session_state.role
-    emp_id = st.session_state.employee_id
-
-    if role == "Employee":
-        tableau_url = f"{HR_TABLEAU_URL}?EmpID={emp_id}"
-    elif role == "Manager":
-        tableau_url = f"{MANAGER_TABLEAU_URL}?Manager_ID={emp_id}"
-    else:
-        tableau_url = HR_TABLEAU_URL
-
     tableau_embed = f"""
     <script type='text/javascript' 
         src='https://public.tableau.com/javascripts/api/viz_v1.js'>
