@@ -64,10 +64,10 @@ def show_tableau_dashboard():
 
     # Build dynamic URL based on role
     if role == "Employee":
-        tableau_url = f"{HR_TABLEAU_URL}?EmpID={emp_id}"
+        tableau_url = f"{HR_TABLEAU_URL}&EmpID={emp_id}"
 
     elif role == "Manager":
-        tableau_url = f"{MANAGER_TABLEAU_URL}?Manager_ID={emp_id}"
+        tableau_url = f"{MANAGER_TABLEAU_URL}&Manager_ID_Param={emp_id}"
 
     else:  # Admin & HR
         tableau_url = HR_TABLEAU_URL
