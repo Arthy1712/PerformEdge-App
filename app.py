@@ -62,31 +62,29 @@ def show_tableau_dashboard():
     role = st.session_state.role
     emp_id = st.session_state.employee_id
 
-    # Build dynamic URL based on role
     if role == "Employee":
-        tableau_url = f"{HR_TABLEAU_URL}&EmpID={emp_id}"
+        view_name = "PerformEdge_Dashboard/Dashboard1"
+        extra_param = f"<param name='EmpID' value='{emp_id}' />"
 
     elif role == "Manager":
-        tableau_url = f"{MANAGER_TABLEAU_URL}&Manager_ID_Param={emp_id}"
+        view_name = "PerformEdge_Dashboard/Dashboard2"
+        extra_param = f"<param name='Manager_ID_Param' value='{emp_id}' />"
 
-    else:  # Admin & HR
-        tableau_url = HR_TABLEAU_URL
-
-    import streamlit.components.v1 as components
+    else:
+        view_name = "PerformEdge_Dashboard/Dashboard1"
+        extra_param = ""
 
     tableau_embed = f"""
-    <script type='text/javascript' 
-        src='https://public.tableau.com/javascripts/api/viz_v1.js'>
-    </script>
-
-    <div class='tableauPlaceholder' style='width: 100%; height: 900px;'>
+    <script src='https://public.tableau.com/javascripts/api/viz_v1.js'></script>
+    <div class='tableauPlaceholder' style='width:100%; height:900px;'>
         <object class='tableauViz' width='100%' height='900'>
             <param name='host_url' value='https://public.tableau.com/' />
             <param name='embed_code_version' value='3' />
             <param name='site_root' value='' />
-            <param name='name' value='{tableau_url.split("views/")[1]}' />
+            <param name='name' value='{view_name}' />
             <param name='tabs' value='no' />
             <param name='toolbar' value='yes' />
+            {extra_param}
         </object>
     </div>
     """
