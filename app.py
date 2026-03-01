@@ -60,19 +60,17 @@ if "logged_in" not in st.session_state:
 # ----------------------------
 def show_tableau_dashboard():
     role = st.session_state.role
-    emp_id = st.session_state.employee_id
+    emp_id = str(st.session_state.employee_id)
 
-    # Always convert to string (safe)
-    emp_id = str(emp_id)
-
-    if role == "Employee":
-        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:showVizHome=no&EmpID={emp_id}"
-
-    elif role == "Manager":
-        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2?:showVizHome=no&Manager_ID_Param={emp_id}"
-
+    if role == "Manager":
+        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2?:showVizHome=no&:embed=true&Manager_ID_Param={emp_id}"
+    elif role == "Employee":
+        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:showVizHome=no&:embed=true&EmpID={emp_id}"
     else:
-        url = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:showVizHome=no"
+        url = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:showVizHome=no&:embed=true"
+
+    # 👇 ADD THIS LINE RIGHT HERE
+    st.write("DEBUG URL:", url)
 
     iframe = f"""
         <iframe src="{url}"
@@ -83,7 +81,6 @@ def show_tableau_dashboard():
     """
 
     components.html(iframe, height=900)
-
 # ----------------------------
 # LOGIN PAGE
 # ----------------------------
