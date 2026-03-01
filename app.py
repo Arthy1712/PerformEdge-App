@@ -3,11 +3,12 @@ import hashlib
 import pandas as pd
 import streamlit.components.v1 as components
 import time
+import sqlite3
 
 # ----------------------------
 # CONFIG
 # ----------------------------
-FINAL_DATA_PATH = "Final_Data.csv"  # CSV with employee data
+FINAL_DATA_PATH = "final_data.csv"  # CSV with all employee data
 USERS_DB_PATH = "users.db"          # SQLite DB with login info
 
 HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1"
@@ -20,9 +21,8 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 # ----------------------------
-# DATABASE CONNECTION
+# DATABASE LOGIN
 # ----------------------------
-import sqlite3
 def get_user(username):
     conn = sqlite3.connect(USERS_DB_PATH)
     cursor = conn.cursor()
@@ -34,19 +34,6 @@ def get_user(username):
     conn.close()
     return user
 
-# ----------------------------
-# LOAD MANAGER TEAM FROM CSV
-# ----------------------------
-def get_manager_team(manager_id):
-    df = pd.read_csv(FINAL_DATA_PATH)
-    team_df = df[df["Manager_ID"] == manager_id]
-    # Exclude manager themselves if present
-    team_df = team_df[team_df["EmpID"] != manager_id]
-    return team_df
-
-# ----------------------------
-# LOGIN FUNCTION
-# ----------------------------
 def login(username, password):
     user = get_user(username)
     if not user:
@@ -69,7 +56,17 @@ if "username_input" not in st.session_state:
     st.session_state.username_input = ""
 
 # ----------------------------
-# TABLEAU DASHBOARD FUNCTION
+# LOAD MANAGER TEAM FROM CSV
+# ----------------------------
+def get_manager_team(manager_id):
+    df = pd.read_csv(FINAL_DATA_PATH)
+    team_df = df[df["Manager_ID"] == manager_id]
+    # Exclude manager themselves if present
+    team_df = team_df[team_df["EmpID"] != manager_id]
+    return team_df
+
+# ----------------------------
+# TABLEAU DASHBOARD FUNCTION (optional)
 # ----------------------------
 def show_tableau_dashboard():
     role = str(st.session_state.role).strip()
@@ -81,7 +78,7 @@ def show_tableau_dashboard():
             f"{MANAGER_TABLEAU_URL}"
             f"?:embed=true"
             f"&:showVizHome=no"
-            f"&Manager_ID_Param={emp_id}"
+            f"&Manager_ID_Param={emp_id}"  # hidden parameter
             f"&_ts={timestamp}"
         )
     elif role == "Employee":
@@ -138,11 +135,24 @@ else:
 
     st.title("📊 PerformEdge Dashboard")
 
-    # Show manager's team
+    # ----------------------------
+    # PARAMETER-BASED FILTER: MANAGER TEAM
+    # ----------------------------
     if st.session_state.role == "Manager":
-        team_df = get_manager_team(st.session_state.employee_id)
+        manager_id = st.session_state.employee_id
+        team_df = get_manager_team(manager_id)
+
         st.subheader("👥 Your Team")
         st.dataframe(team_df)
+
+        # Optional: dropdown to select an employee (parameter)
+        emp_choice = st.selectbox(
+            "Select Employee to view details",
+            team_df["EmpID"].tolist()
+        )
+        selected_df = team_df[team_df["EmpID"] == emp_choice]
+        st.subheader(f"📄 Performance of Employee {emp_choice}")
+        st.dataframe(selected_df)
 
         # Top 3 performers
         if "Performance_Score" in team_df.columns:
@@ -150,5 +160,7 @@ else:
             st.subheader("🏆 Top 3 Performers")
             st.dataframe(top3)
 
-    # Show Tableau dashboard
+    # ----------------------------
+    # SHOW TABLEAU DASHBOARD (optional)
+    # ----------------------------
     show_tableau_dashboard()
