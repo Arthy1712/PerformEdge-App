@@ -59,19 +59,35 @@ if "logged_in" not in st.session_state:
 # ----------------------------
 def show_tableau_dashboard():
     role = str(st.session_state.role).strip()
-    emp_id = str(st.session_state.employee_id).strip()
+    emp_id = str(st.session_state.employee_id).strip()  # for managers, this is "101,102,103"
     timestamp = int(time.time())  # prevent caching
 
     if role == "Manager":
-        # Send all team IDs as a single comma-separated string
-        team_emp_ids = ",".join([eid.strip() for eid in emp_id.split(",") if eid.strip()])
-        url = f"{MANAGER_TABLEAU_URL}?:embed=true&:showVizHome=no&TeamEmpIDs={team_emp_ids}&_ts={timestamp}"
+        # Send the whole team as a comma-separated list to EmpID filter
+        url = (
+            f"{MANAGER_TABLEAU_URL}"
+            f"?:embed=true"
+            f"&:showVizHome=no"
+            f"&EmpID={emp_id}"  # directly pass team IDs
+            f"&_ts={timestamp}"
+        )
 
     elif role == "Employee":
-        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
+        url = (
+            f"{HR_TABLEAU_URL}"
+            f"?:embed=true"
+            f"&:showVizHome=no"
+            f"&EmpID={emp_id}"
+            f"&_ts={timestamp}"
+        )
 
     else:  # HR/Admin
-        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
+        url = (
+            f"{HR_TABLEAU_URL}"
+            f"?:embed=true"
+            f"&:showVizHome=no"
+            f"&_ts={timestamp}"
+        )
 
     iframe = f"""
         <iframe src="{url}"
