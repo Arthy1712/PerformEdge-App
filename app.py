@@ -62,34 +62,27 @@ def show_tableau_dashboard():
     role = st.session_state.role
     emp_id = st.session_state.employee_id
 
+    # Always convert to string (safe)
+    emp_id = str(emp_id)
+
     if role == "Employee":
-        view_name = "PerformEdge_Dashboard/Dashboard1"
-        extra_param = f"<param name='EmpID' value='{emp_id}' />"
+        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:showVizHome=no&EmpID={emp_id}"
 
     elif role == "Manager":
-        view_name = "PerformEdge_Dashboard/Dashboard2"
-        extra_param = f"<param name='Manager_ID_Param' value='{emp_id}' />"
+        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2?:showVizHome=no&Manager_ID_Param={emp_id}"
 
     else:
-        view_name = "PerformEdge_Dashboard/Dashboard1"
-        extra_param = ""
+        url = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:showVizHome=no"
 
-    tableau_embed = f"""
-    <script src='https://public.tableau.com/javascripts/api/viz_v1.js'></script>
-    <div class='tableauPlaceholder' style='width:100%; height:900px;'>
-        <object class='tableauViz' width='100%' height='900'>
-            <param name='host_url' value='https://public.tableau.com/' />
-            <param name='embed_code_version' value='3' />
-            <param name='site_root' value='' />
-            <param name='name' value='{view_name}' />
-            <param name='tabs' value='no' />
-            <param name='toolbar' value='yes' />
-            {extra_param}
-        </object>
-    </div>
+    iframe = f"""
+        <iframe src="{url}"
+        width="100%"
+        height="900"
+        frameborder="0">
+        </iframe>
     """
 
-    components.html(tableau_embed, height=900)
+    components.html(iframe, height=900)
 
 # ----------------------------
 # LOGIN PAGE
