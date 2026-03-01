@@ -67,7 +67,7 @@ def show_tableau_dashboard():
             f"{MANAGER_TABLEAU_URL}"
             f"?:embed=true"
             f"&:showVizHome=no"
-            f"&EmpID={emp_id}"  # check this
+            f"&EmpID={emp_id}"
             f"&_ts={timestamp}"
         )
     elif role == "Employee":
@@ -86,11 +86,13 @@ def show_tableau_dashboard():
             f"&_ts={timestamp}"
         )
 
-    # ✅ DEBUG: print URL
+    # Show the URL (for debugging)
     st.write("Tableau URL being used:")
     st.write(url)
 
-    components.html(f'<iframe src="{url}" width="100%" height="900" frameborder="0"></iframe>', height=900)
+    # Embed iframe with larger height
+    components.html(f'<iframe src="{url}" width="100%" height="1400" style="border:none;"></iframe>', height=1400)
+
 # ----------------------------
 # LOGIN PAGE
 # ----------------------------
@@ -108,7 +110,7 @@ if not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.role = role
             st.session_state.employee_id = employee_id
-            st.rerun()
+            st.experimental_rerun()
         else:
             st.error("Invalid Username or Password")
 
@@ -123,7 +125,11 @@ else:
         st.session_state.logged_in = False
         st.session_state.role = None
         st.session_state.employee_id = None
-        st.rerun()
+        st.experimental_rerun()
+
+    # Reset button to reload original manager team view
+    if st.sidebar.button("Reset Dashboard"):
+        st.experimental_rerun()
 
     st.title("📊 PerformEdge Dashboard")
     show_tableau_dashboard()
