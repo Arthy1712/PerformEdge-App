@@ -53,6 +53,7 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.role = None
     st.session_state.employee_id = None
+    st.session_state.reset_dashboard = False  # toggle for dashboard reset
 
 # ----------------------------
 # DASHBOARD FUNCTION
@@ -86,37 +87,28 @@ def show_tableau_dashboard():
             f"&_ts={timestamp}"
         )
 
-    # Show the URL (for debugging)
     st.write("Tableau URL being used:")
     st.write(url)
-
-    # Embed iframe with larger height
     components.html(f'<iframe src="{url}" width="100%" height="1400" style="border:none;"></iframe>', height=1400)
 
 # ----------------------------
 # LOGIN PAGE
 # ----------------------------
 if not st.session_state.logged_in:
-
     st.title("📊 PerformEdge Login")
-
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
         success, role, employee_id = login(username, password)
-
         if success:
             st.session_state.logged_in = True
             st.session_state.role = role
             st.session_state.employee_id = employee_id
-            st.experimental_rerun()
+            st.session_state.reset_dashboard = True  # force dashboard to render after login
         else:
             st.error("Invalid Username or Password")
 
-# ----------------------------
-# AFTER LOGIN
-# ----------------------------
 # ----------------------------
 # AFTER LOGIN
 # ----------------------------
@@ -128,17 +120,13 @@ else:
         st.session_state.logged_in = False
         st.session_state.role = None
         st.session_state.employee_id = None
-        st.session_state.rerun_flag = True  # set flag instead of calling rerun directly
+        st.session_state.reset_dashboard = False
 
     # Reset Dashboard button
     if st.sidebar.button("Reset Dashboard"):
-        st.session_state.rerun_flag = True  # set flag to reload iframe
+        st.session_state.reset_dashboard = True  # toggle to re-render iframe
 
-    # Check rerun flag and reload
-    if st.session_state.get("rerun_flag", False):
-        st.session_state.rerun_flag = False
-        st.experimental_rerun()  # now safe
-        st.stop()
-
-    st.title("📊 PerformEdge Dashboard")
-    show_tableau_dashboard()
+    # Show dashboard if logged in
+    if st.session_state.reset_dashboard or st.session_state.logged_in:
+        show_tableau_dashboard()
+        st.session_state.reset_dashboard = False  # reset toggle
