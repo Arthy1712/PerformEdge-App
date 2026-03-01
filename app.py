@@ -63,12 +63,11 @@ def show_tableau_dashboard():
     timestamp = int(time.time())
 
     if role == "Manager":
-        # Directly pass team members to the EmpID filter in Tableau
         url = (
             f"{MANAGER_TABLEAU_URL}"
             f"?:embed=true"
             f"&:showVizHome=no"
-            f"&EmpID={emp_id}"  # no parameter, just the filter
+            f"&EmpID={emp_id}"  # check this
             f"&_ts={timestamp}"
         )
     elif role == "Employee":
@@ -87,14 +86,11 @@ def show_tableau_dashboard():
             f"&_ts={timestamp}"
         )
 
-    iframe = f"""
-        <iframe src="{url}"
-        width="100%"
-        height="900"
-        frameborder="0">
-        </iframe>
-    """
-    components.html(iframe, height=900)
+    # ✅ DEBUG: print URL
+    st.write("Tableau URL being used:")
+    st.write(url)
+
+    components.html(f'<iframe src="{url}" width="100%" height="900" frameborder="0"></iframe>', height=900)
 # ----------------------------
 # LOGIN PAGE
 # ----------------------------
