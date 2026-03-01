@@ -63,11 +63,9 @@ def show_tableau_dashboard():
     timestamp = int(time.time())  # prevent caching
 
     if role == "Manager":
-        # Split manager's employee_id string into list
-        team_emp_ids = [eid.strip() for eid in emp_id.split(",") if eid.strip()]
-        # Convert to multiple URL parameters: &EmpID=101&EmpID=102...
-        params = "&".join([f"EmpID={eid}" for eid in team_emp_ids])
-        url = f"{MANAGER_TABLEAU_URL}?:embed=true&:showVizHome=no&{params}&_ts={timestamp}"
+        # Send all team IDs as a single comma-separated string
+        team_emp_ids = ",".join([eid.strip() for eid in emp_id.split(",") if eid.strip()])
+        url = f"{MANAGER_TABLEAU_URL}?:embed=true&:showVizHome=no&TeamEmpIDs={team_emp_ids}&_ts={timestamp}"
 
     elif role == "Employee":
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
