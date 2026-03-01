@@ -24,12 +24,10 @@ def hash_password(password):
 def get_user(username):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-
     cursor.execute(
         "SELECT username, password, role, employee_id FROM users WHERE username=?",
         (username.strip(),)
     )
-
     user = cursor.fetchone()
     conn.close()
     return user
@@ -39,12 +37,10 @@ def get_user(username):
 # ----------------------------
 def login(username, password):
     user = get_user(username)
-
     if not user:
         return False, None, None
 
     stored_username, stored_password, role, employee_id = user
-
     if hash_password(password) != stored_password:
         return False, None, None
 
@@ -62,39 +58,22 @@ if "logged_in" not in st.session_state:
 # DASHBOARD FUNCTION
 # ----------------------------
 def show_tableau_dashboard():
-
     role = str(st.session_state.role).strip()
     emp_id = str(st.session_state.employee_id).strip()
-    timestamp = int(time.time())  # prevents caching
+    timestamp = int(time.time())  # prevent caching
 
-    # If Manager, emp_id contains comma-separated team members
     if role == "Manager":
-        # Pass as parameter string for Tableau (URL-encoded if needed)
-        team_emp_ids = emp_id.replace(" ", "")  # remove spaces if any
-        url = (
-            f"{MANAGER_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
-            f"&EmpID={team_emp_ids}"  # send all team IDs to Tableau
-            f"&_ts={timestamp}"
-        )
+        # Split manager's employee_id string into list
+        team_emp_ids = [eid.strip() for eid in emp_id.split(",") if eid.strip()]
+        # Convert to multiple URL parameters: &EmpID=101&EmpID=102...
+        params = "&".join([f"EmpID={eid}" for eid in team_emp_ids])
+        url = f"{MANAGER_TABLEAU_URL}?:embed=true&:showVizHome=no&{params}&_ts={timestamp}"
 
     elif role == "Employee":
-        url = (
-            f"{HR_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
-            f"&EmpID={emp_id}"
-            f"&_ts={timestamp}"
-        )
+        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
 
-    else:
-        url = (
-            f"{HR_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
-            f"&_ts={timestamp}"
-        )
+    else:  # HR/Admin
+        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
     iframe = f"""
         <iframe src="{url}"
@@ -103,8 +82,7 @@ def show_tableau_dashboard():
         frameborder="0">
         </iframe>
     """
-
-    components.html(iframe, height=900) 
+    components.html(iframe, height=900)
 
 # ----------------------------
 # LOGIN PAGE
@@ -141,5 +119,4 @@ else:
         st.rerun()
 
     st.title("📊 PerformEdge Dashboard")
-
     show_tableau_dashboard()
