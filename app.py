@@ -65,10 +65,9 @@ def show_tableau_dashboard():
     emp_id = str(st.session_state.employee_id)
     timestamp = int(time.time())
 
-    # 🔥 Clean base URL (remove everything after ?)
     if role == "Manager":
         base_url = MANAGER_TABLEAU_URL.split("?")[0]
-        url = f"{base_url}?:embed=true&:showVizHome=no&Manager_ID_Param={emp_id}&_ts={timestamp}"
+        url = f"{base_url}?:embed=true&:showVizHome=no&Manager_ID={emp_id}&_ts={timestamp}"
 
     elif role == "Employee":
         base_url = HR_TABLEAU_URL.split("?")[0]
@@ -77,8 +76,6 @@ def show_tableau_dashboard():
     else:
         base_url = HR_TABLEAU_URL.split("?")[0]
         url = f"{base_url}?:embed=true&:showVizHome=no&_ts={timestamp}"
-
-    st.write("DEBUG URL:", url)
 
     iframe = f"""
         <iframe src="{url}"
