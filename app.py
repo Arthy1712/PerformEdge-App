@@ -53,7 +53,6 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.role = None
     st.session_state.employee_id = None
-    st.session_state.reset_dashboard = True  # ensures first render
 
 # ----------------------------
 # DASHBOARD FUNCTION
@@ -61,33 +60,20 @@ if "logged_in" not in st.session_state:
 def show_tableau_dashboard():
     role = st.session_state.role
     emp_id = st.session_state.employee_id
-    timestamp = int(time.time())  # prevent iframe caching
+    timestamp = int(time.time())  # prevent caching
 
     if role == "Manager":
-        url = (
-            f"{MANAGER_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
-            f"&EmpID={emp_id}"
-            f"&_ts={timestamp}"
-        )
+        url = f"{MANAGER_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
     elif role == "Employee":
-        url = (
-            f"{HR_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
-            f"&EmpID={emp_id}"
-            f"&_ts={timestamp}"
-        )
+        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
     else:
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
     st.write("📌 Dashboard URL being used:")
     st.write(url)
 
-    # Full-width, full-height iframe
     components.html(
-        f'<iframe src="{url}" width="100%" height="1400" style="border:none;"></iframe>',
+        f'<iframe src="{url}" width="200%" height="1400" style="border:none;"></iframe>',
         height=1400,
     )
 
@@ -105,7 +91,6 @@ if not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.role = role
             st.session_state.employee_id = employee_id
-            st.session_state.reset_dashboard = True
         else:
             st.error("❌ Invalid Username or Password")
 
@@ -120,13 +105,6 @@ else:
         st.session_state.logged_in = False
         st.session_state.role = None
         st.session_state.employee_id = None
-        st.session_state.reset_dashboard = True
-
-    # Reset Dashboard button
-    if st.sidebar.button("Reset Dashboard"):
-        st.session_state.reset_dashboard = True
 
     # Show dashboard
-    if st.session_state.reset_dashboard:
-        show_tableau_dashboard()
-        st.session_state.reset_dashboard = False
+    show_tableau_dashboard()
