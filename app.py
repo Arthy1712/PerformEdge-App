@@ -53,15 +53,15 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.role = None
     st.session_state.employee_id = None
-    st.session_state.reset_dashboard = False  # toggle for dashboard reset
+    st.session_state.reset_dashboard = True  # ensures first render
 
 # ----------------------------
 # DASHBOARD FUNCTION
 # ----------------------------
 def show_tableau_dashboard():
-    role = str(st.session_state.role).strip()
-    emp_id = str(st.session_state.employee_id).strip()  # "101,102,103"
-    timestamp = int(time.time())
+    role = st.session_state.role
+    emp_id = st.session_state.employee_id
+    timestamp = int(time.time())  # prevent iframe caching
 
     if role == "Manager":
         url = (
@@ -80,16 +80,16 @@ def show_tableau_dashboard():
             f"&_ts={timestamp}"
         )
     else:
-        url = (
-            f"{HR_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
-            f"&_ts={timestamp}"
-        )
+        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
-    st.write("Tableau URL being used:")
+    st.write("📌 Dashboard URL being used:")
     st.write(url)
-    components.html(f'<iframe src="{url}" width="100%" height="1400" style="border:none;"></iframe>', height=1400)
+
+    # Full-width, full-height iframe
+    components.html(
+        f'<iframe src="{url}" width="100%" height="1400" style="border:none;"></iframe>',
+        height=1400,
+    )
 
 # ----------------------------
 # LOGIN PAGE
@@ -105,9 +105,9 @@ if not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.role = role
             st.session_state.employee_id = employee_id
-            st.session_state.reset_dashboard = True  # force dashboard to render after login
+            st.session_state.reset_dashboard = True
         else:
-            st.error("Invalid Username or Password")
+            st.error("❌ Invalid Username or Password")
 
 # ----------------------------
 # AFTER LOGIN
@@ -120,13 +120,13 @@ else:
         st.session_state.logged_in = False
         st.session_state.role = None
         st.session_state.employee_id = None
-        st.session_state.reset_dashboard = False
+        st.session_state.reset_dashboard = True
 
     # Reset Dashboard button
     if st.sidebar.button("Reset Dashboard"):
-        st.session_state.reset_dashboard = True  # toggle to re-render iframe
+        st.session_state.reset_dashboard = True
 
-    # Show dashboard if logged in
-    if st.session_state.reset_dashboard or st.session_state.logged_in:
+    # Show dashboard
+    if st.session_state.reset_dashboard:
         show_tableau_dashboard()
-        st.session_state.reset_dashboard = False  # reset toggle
+        st.session_state.reset_dashboard = False
