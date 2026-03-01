@@ -59,19 +59,18 @@ if "logged_in" not in st.session_state:
 # ----------------------------
 def show_tableau_dashboard():
     role = str(st.session_state.role).strip()
-    emp_id = str(st.session_state.employee_id).strip()  # for managers, this is "101,102,103"
-    timestamp = int(time.time())  # prevent caching
+    emp_id = str(st.session_state.employee_id).strip()  # "101,102,103"
+    timestamp = int(time.time())
 
     if role == "Manager":
-        # Send the whole team as a comma-separated list to EmpID filter
+        # Directly pass team members to the EmpID filter in Tableau
         url = (
             f"{MANAGER_TABLEAU_URL}"
             f"?:embed=true"
             f"&:showVizHome=no"
-            f"&EmpID={emp_id}"  # directly pass team IDs
+            f"&EmpID={emp_id}"  # no parameter, just the filter
             f"&_ts={timestamp}"
         )
-
     elif role == "Employee":
         url = (
             f"{HR_TABLEAU_URL}"
@@ -80,8 +79,7 @@ def show_tableau_dashboard():
             f"&EmpID={emp_id}"
             f"&_ts={timestamp}"
         )
-
-    else:  # HR/Admin
+    else:
         url = (
             f"{HR_TABLEAU_URL}"
             f"?:embed=true"
@@ -97,7 +95,6 @@ def show_tableau_dashboard():
         </iframe>
     """
     components.html(iframe, height=900)
-
 # ----------------------------
 # LOGIN PAGE
 # ----------------------------
