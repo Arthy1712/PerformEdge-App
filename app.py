@@ -11,6 +11,7 @@ DB_PATH = "users.db"
 
 HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1"
 MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2"
+EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard3"
 
 # ----------------------------
 # PASSWORD HASH FUNCTION
@@ -65,7 +66,7 @@ def show_tableau_dashboard():
     if role == "Manager":
         url = f"{MANAGER_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
     elif role == "Employee":
-        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
+        url = f"{EMPLOYEE_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
     else:
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
