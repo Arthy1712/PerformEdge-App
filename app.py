@@ -8,7 +8,6 @@ import time
 # CONFIG
 # ----------------------------
 DB_PATH = "users.db"
-
 HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1"
 MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2"
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard3"
