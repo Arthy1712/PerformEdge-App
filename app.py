@@ -1,4 +1,4 @@
-here, i want to not show the clipboard username :import streamlit as st
+import streamlit as st
 import sqlite3
 import hashlib
 import streamlit.components.v1 as components
