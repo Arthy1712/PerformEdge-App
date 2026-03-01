@@ -59,17 +59,19 @@ if "logged_in" not in st.session_state:
 # DASHBOARD FUNCTION
 # ----------------------------
 def show_tableau_dashboard():
+    import time
+
     role = st.session_state.role
     emp_id = str(st.session_state.employee_id)
+    timestamp = int(time.time())
 
     if role == "Manager":
-        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2?:showVizHome=no&:embed=true&Manager_ID_Param={emp_id}"
+        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2?:embed=true&:showVizHome=no&Manager_ID_Param={emp_id}&_ts={timestamp}"
     elif role == "Employee":
-        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:showVizHome=no&:embed=true&EmpID={emp_id}"
+        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
     else:
-        url = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:showVizHome=no&:embed=true"
+        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:embed=true&:showVizHome=no&_ts={timestamp}"
 
-    # 👇 ADD THIS LINE RIGHT HERE
     st.write("DEBUG URL:", url)
 
     iframe = f"""
