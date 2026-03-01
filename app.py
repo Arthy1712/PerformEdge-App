@@ -65,12 +65,18 @@ def show_tableau_dashboard():
     emp_id = str(st.session_state.employee_id)
     timestamp = int(time.time())
 
+    # 🔥 Clean base URL (remove everything after ?)
     if role == "Manager":
-        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2?:embed=true&:showVizHome=no&Manager_ID_Param={emp_id}&_ts={timestamp}"
+        base_url = MANAGER_TABLEAU_URL.split("?")[0]
+        url = f"{base_url}?:embed=true&:showVizHome=no&Manager_ID_Param={emp_id}&_ts={timestamp}"
+
     elif role == "Employee":
-        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
+        base_url = HR_TABLEAU_URL.split("?")[0]
+        url = f"{base_url}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
+
     else:
-        url = f"https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1?:embed=true&:showVizHome=no&_ts={timestamp}"
+        base_url = HR_TABLEAU_URL.split("?")[0]
+        url = f"{base_url}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
     st.write("DEBUG URL:", url)
 
