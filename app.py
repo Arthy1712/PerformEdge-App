@@ -73,7 +73,7 @@ def show_tableau_dashboard():
     st.write(url)
 
     components.html(
-        f'<iframe src="{url}" width="200%" height="1400" style="border:none;"></iframe>',
+        f'<iframe src="{url}" width="100%" height="100vh" style="border:none;"></iframe>',
         height=1400,
     )
 
