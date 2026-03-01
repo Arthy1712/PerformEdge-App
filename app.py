@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 import time
 
 # ----------------------------
-# CONFIG
+# CONFIG (CLEAN BASE URL ONLY)
 # ----------------------------
 DB_PATH = "users.db"
 
@@ -65,16 +65,33 @@ def show_tableau_dashboard():
 
     role = str(st.session_state.role).strip()
     emp_id = str(st.session_state.employee_id).strip()
-    timestamp = int(time.time())
+    timestamp = int(time.time())  # prevents caching
 
     if role == "Manager":
-        url = f"{MANAGER_TABLEAU_URL}?:embed=true&:showVizHome=no&Manager_ID_Param={emp_id}&_ts={timestamp}"
+        url = (
+            f"{MANAGER_TABLEAU_URL}"
+            f"?:embed=true"
+            f"&:showVizHome=no"
+            f"&Manager_ID_Param={emp_id}"
+            f"&_ts={timestamp}"
+        )
 
     elif role == "Employee":
-        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
+        url = (
+            f"{HR_TABLEAU_URL}"
+            f"?:embed=true"
+            f"&:showVizHome=no"
+            f"&EmpID={emp_id}"
+            f"&_ts={timestamp}"
+        )
 
     else:
-        url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
+        url = (
+            f"{HR_TABLEAU_URL}"
+            f"?:embed=true"
+            f"&:showVizHome=no"
+            f"&_ts={timestamp}"
+        )
 
     iframe = f"""
         <iframe src="{url}"
