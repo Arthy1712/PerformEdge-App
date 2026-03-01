@@ -117,19 +117,27 @@ if not st.session_state.logged_in:
 # ----------------------------
 # AFTER LOGIN
 # ----------------------------
+# ----------------------------
+# AFTER LOGIN
+# ----------------------------
 else:
-
     st.sidebar.write(f"👤 Logged in as: {st.session_state.role}")
 
+    # Logout button
     if st.sidebar.button("Logout"):
         st.session_state.logged_in = False
         st.session_state.role = None
         st.session_state.employee_id = None
-        st.experimental_rerun()
+        st.session_state.rerun_flag = True  # set flag instead of calling rerun directly
 
-    # Reset button to reload original manager team view
+    # Reset Dashboard button
     if st.sidebar.button("Reset Dashboard"):
-        st.experimental_rerun()
+        st.session_state.rerun_flag = True  # set flag to reload iframe
+
+    # Check rerun flag and reload
+    if st.session_state.get("rerun_flag", False):
+        st.session_state.rerun_flag = False
+        st.experimental_rerun()  # now safe
         st.stop()
 
     st.title("📊 PerformEdge Dashboard")
