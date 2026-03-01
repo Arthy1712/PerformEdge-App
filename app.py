@@ -1,4 +1,3 @@
-
 import streamlit as st
 import sqlite3
 import hashlib
@@ -6,7 +5,7 @@ import streamlit.components.v1 as components
 import time
 
 # ----------------------------
-# CONFIG (CLEAN BASE URL ONLY)
+# CONFIG
 # ----------------------------
 DB_PATH = "users.db"
 
@@ -68,12 +67,15 @@ def show_tableau_dashboard():
     emp_id = str(st.session_state.employee_id).strip()
     timestamp = int(time.time())  # prevents caching
 
+    # If Manager, emp_id contains comma-separated team members
     if role == "Manager":
+        # Pass as parameter string for Tableau (URL-encoded if needed)
+        team_emp_ids = emp_id.replace(" ", "")  # remove spaces if any
         url = (
             f"{MANAGER_TABLEAU_URL}"
             f"?:embed=true"
             f"&:showVizHome=no"
-            f"&Manager_ID_Param={emp_id}"
+            f"&EmpID={team_emp_ids}"  # send all team IDs to Tableau
             f"&_ts={timestamp}"
         )
 
