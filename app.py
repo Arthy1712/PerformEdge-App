@@ -1,15 +1,14 @@
+
 import streamlit as st
+import sqlite3
 import hashlib
-import pandas as pd
 import streamlit.components.v1 as components
 import time
-import sqlite3
 
 # ----------------------------
-# CONFIG
+# CONFIG (CLEAN BASE URL ONLY)
 # ----------------------------
-FINAL_DATA_PATH = "final_data.csv"  # CSV with all employee data
-USERS_DB_PATH = "users.db"          # SQLite DB with login info
+DB_PATH = "users.db"
 
 HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1"
 MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2"
@@ -21,25 +20,32 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 # ----------------------------
-# DATABASE LOGIN
+# DATABASE CONNECTION
 # ----------------------------
 def get_user(username):
-    conn = sqlite3.connect(USERS_DB_PATH)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
+
     cursor.execute(
         "SELECT username, password, role, employee_id FROM users WHERE username=?",
         (username.strip(),)
     )
+
     user = cursor.fetchone()
     conn.close()
     return user
 
+# ----------------------------
+# LOGIN FUNCTION
+# ----------------------------
 def login(username, password):
     user = get_user(username)
+
     if not user:
         return False, None, None
 
     stored_username, stored_password, role, employee_id = user
+
     if hash_password(password) != stored_password:
         return False, None, None
 
@@ -52,35 +58,25 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.role = None
     st.session_state.employee_id = None
-if "username_input" not in st.session_state:
-    st.session_state.username_input = ""
 
 # ----------------------------
-# LOAD MANAGER TEAM FROM CSV
-# ----------------------------
-def get_manager_team(manager_id):
-    df = pd.read_csv(FINAL_DATA_PATH)
-    team_df = df[df["Manager_ID"] == manager_id]
-    # Exclude manager themselves if present
-    team_df = team_df[team_df["EmpID"] != manager_id]
-    return team_df
-
-# ----------------------------
-# TABLEAU DASHBOARD FUNCTION (optional)
+# DASHBOARD FUNCTION
 # ----------------------------
 def show_tableau_dashboard():
+
     role = str(st.session_state.role).strip()
     emp_id = str(st.session_state.employee_id).strip()
-    timestamp = int(time.time())
+    timestamp = int(time.time())  # prevents caching
 
     if role == "Manager":
         url = (
             f"{MANAGER_TABLEAU_URL}"
             f"?:embed=true"
             f"&:showVizHome=no"
-            f"&Manager_ID_Param={emp_id}"  # hidden parameter
+            f"&Manager_ID_Param={emp_id}"
             f"&_ts={timestamp}"
         )
+
     elif role == "Employee":
         url = (
             f"{HR_TABLEAU_URL}"
@@ -89,8 +85,14 @@ def show_tableau_dashboard():
             f"&EmpID={emp_id}"
             f"&_ts={timestamp}"
         )
+
     else:
-        url = f"{HR_TABLEAU_URL}?embed=true&:showVizHome=no&_ts={timestamp}"
+        url = (
+            f"{HR_TABLEAU_URL}"
+            f"?:embed=true"
+            f"&:showVizHome=no"
+            f"&_ts={timestamp}"
+        )
 
     iframe = f"""
         <iframe src="{url}"
@@ -99,24 +101,26 @@ def show_tableau_dashboard():
         frameborder="0">
         </iframe>
     """
-    components.html(iframe, height=900)
+
+    components.html(iframe, height=900) 
 
 # ----------------------------
 # LOGIN PAGE
 # ----------------------------
 if not st.session_state.logged_in:
+
     st.title("📊 PerformEdge Login")
 
-    username = st.text_input("Username", value=st.session_state.get("username_input",""))
+    username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
         success, role, employee_id = login(username, password)
+
         if success:
             st.session_state.logged_in = True
             st.session_state.role = role
             st.session_state.employee_id = employee_id
-            st.session_state.username_input = ""
             st.rerun()
         else:
             st.error("Invalid Username or Password")
@@ -125,42 +129,15 @@ if not st.session_state.logged_in:
 # AFTER LOGIN
 # ----------------------------
 else:
-    st.sidebar.title("📊 PerformEdge Dashboard")
+
+    st.sidebar.write(f"👤 Logged in as: {st.session_state.role}")
+
     if st.sidebar.button("Logout"):
         st.session_state.logged_in = False
         st.session_state.role = None
         st.session_state.employee_id = None
-        st.session_state.username_input = ""
         st.rerun()
 
     st.title("📊 PerformEdge Dashboard")
 
-    # ----------------------------
-    # PARAMETER-BASED FILTER: MANAGER TEAM
-    # ----------------------------
-    if st.session_state.role == "Manager":
-        manager_id = st.session_state.employee_id
-        team_df = get_manager_team(manager_id)
-
-        st.subheader("👥 Your Team")
-        st.dataframe(team_df)
-
-        # Optional: dropdown to select an employee (parameter)
-        emp_choice = st.selectbox(
-            "Select Employee to view details",
-            team_df["EmpID"].tolist()
-        )
-        selected_df = team_df[team_df["EmpID"] == emp_choice]
-        st.subheader(f"📄 Performance of Employee {emp_choice}")
-        st.dataframe(selected_df)
-
-        # Top 3 performers
-        if "Performance_Score" in team_df.columns:
-            top3 = team_df.nlargest(3, "Performance_Score")
-            st.subheader("🏆 Top 3 Performers")
-            st.dataframe(top3)
-
-    # ----------------------------
-    # SHOW TABLEAU DASHBOARD (optional)
-    # ----------------------------
     show_tableau_dashboard()
