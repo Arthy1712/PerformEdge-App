@@ -130,6 +130,7 @@ else:
     # Reset button to reload original manager team view
     if st.sidebar.button("Reset Dashboard"):
         st.experimental_rerun()
+        st.stop()
 
     st.title("📊 PerformEdge Dashboard")
     show_tableau_dashboard()
