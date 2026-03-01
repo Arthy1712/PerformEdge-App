@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 import time
 
 # ----------------------------
-# CONFIG (CLEAN BASE URL ONLY)
+# CONFIG
 # ----------------------------
 DB_PATH = "users.db"
 
@@ -67,41 +67,41 @@ def show_tableau_dashboard():
     emp_id = str(st.session_state.employee_id).strip()
     timestamp = int(time.time())  # prevents caching
 
+    # Manager dashboard with parameter for filtering team
     if role == "Manager":
         url = (
-            f"{MANAGER_TABLEAU_URL}"
-            f"?:embed=true"
+            f"{MANAGER_TABLEAU_URL}?:embed=true"
             f"&:showVizHome=no"
-            f"&Manager_ID_Param={emp_id}"
-            f"&_ts={timestamp}"
+            f"&Manager_ID_param={emp_id}"  # <-- exact Tableau parameter name
+            f"&:_ts={timestamp}"
         )
 
+    # Employee dashboard with parameter for individual
     elif role == "Employee":
         url = (
-            f"{HR_TABLEAU_URL}"
-            f"?:embed=true"
+            f"{HR_TABLEAU_URL}?:embed=true"
             f"&:showVizHome=no"
-            f"&EmpID={emp_id}"
-            f"&_ts={timestamp}"
+            f"&EmpID={emp_id}"  # <-- exact Tableau parameter name
+            f"&:_ts={timestamp}"
         )
 
+    # Default dashboard if role is unknown
     else:
         url = (
-            f"{HR_TABLEAU_URL}"
-            f"?:embed=true"
+            f"{HR_TABLEAU_URL}?:embed=true"
             f"&:showVizHome=no"
-            f"&_ts={timestamp}"
+            f"&:_ts={timestamp}"
         )
 
     iframe = f"""
         <iframe src="{url}"
         width="100%"
         height="900"
-        frameborder="0">
+        frameborder="0"
+        allowfullscreen>
         </iframe>
     """
-
-    components.html(iframe, height=900) 
+    components.html(iframe, height=900)
 
 # ----------------------------
 # LOGIN PAGE
@@ -120,7 +120,8 @@ if not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.role = role
             st.session_state.employee_id = employee_id
-            st.rerun()
+            st.success(f"Logged in as {role}")
+            st.experimental_rerun()
         else:
             st.error("Invalid Username or Password")
 
@@ -135,8 +136,7 @@ else:
         st.session_state.logged_in = False
         st.session_state.role = None
         st.session_state.employee_id = None
-        st.rerun()
+        st.experimental_rerun()
 
     st.title("📊 PerformEdge Dashboard")
-
     show_tableau_dashboard()
