@@ -9,9 +9,6 @@ import time
 # ----------------------------
 DB_PATH = "users.db"
 
-HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1"
-MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2"
-
 # ----------------------------
 # PASSWORD HASH FUNCTION
 # ----------------------------
@@ -62,34 +59,25 @@ if "logged_in" not in st.session_state:
 # DASHBOARD FUNCTION
 # ----------------------------
 def show_tableau_dashboard():
+    import time
 
     role = str(st.session_state.role).strip()
     emp_id = str(st.session_state.employee_id).strip()
-    timestamp = int(time.time())  # prevents caching
+    timestamp = int(time.time())
 
     if role == "Manager":
         url = (
-            f"{MANAGER_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
-            f"&Manager_ID_Param={emp_id}"
+            "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2"
+            f"?:embed=y"
+            f"&Manager_ID={emp_id}"
             f"&_ts={timestamp}"
         )
 
     elif role == "Employee":
         url = (
-            f"{HR_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
+            "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1"
+            f"?:embed=y"
             f"&EmpID={emp_id}"
-            f"&_ts={timestamp}"
-        )
-
-    else:
-        url = (
-            f"{HR_TABLEAU_URL}"
-            f"?:embed=true"
-            f"&:showVizHome=no"
             f"&_ts={timestamp}"
         )
 
