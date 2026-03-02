@@ -3,7 +3,6 @@ import sqlite3
 import hashlib
 import streamlit.components.v1 as components
 import time
-
 # ----------------------------
 # CONFIG
 # ----------------------------
