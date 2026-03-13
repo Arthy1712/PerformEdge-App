@@ -9,7 +9,7 @@ import time
 DB_PATH = "users.db"
 HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard1"
 MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge_Dashboard/Dashboard2"
-EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PE_DB/Dashboard3?:language=en-GB&publish=yes&:sid=471FB29DAC4D496499BEE227711986C4-0:0&:redirect=auth&:display_count=n&:origin=viz_share_link"
+EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PE_DB/Dashboard3"
 # ----------------------------
 # PASSWORD HASH FUNCTION
 # ----------------------------
