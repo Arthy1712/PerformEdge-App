@@ -14,18 +14,17 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# CSS (FINAL ALIGNMENT FIX)
+# CSS (FIXED ALIGNMENT)
 # ----------------------------
 st.markdown("""
 <style>
 
-/* Center everything in one vertical line */
+/* Center container BELOW title */
 .main {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    width: 100%;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
 /* Background */
@@ -48,7 +47,6 @@ st.markdown("""
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     backdrop-filter: blur(10px);
     animation: fadeSlide 1s ease;
-    margin: 0 auto;   /* PERFECT CENTER ALIGN */
 }
 
 /* Title */
@@ -72,7 +70,7 @@ st.markdown("""
     font-size: 40px;
     text-align: center;
     animation: float 2s ease-in-out infinite;
-    margin-bottom: 8px;   /* tighter spacing */
+    margin-bottom: 5px;
 }
 
 /* Button */
@@ -182,12 +180,10 @@ if not st.session_state.logged_in:
 
     st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="main">', unsafe_allow_html=True)
-
     st.markdown('<div class="icon">👨‍💼</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">PerformEdge - Login</div>', unsafe_allow_html=True)
 
+    st.markdown('<div class="main">', unsafe_allow_html=True)
     st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
     username = st.text_input("👤 Username")
@@ -203,8 +199,8 @@ if not st.session_state.logged_in:
         else:
             st.error("❌ Invalid Username or Password")
 
-    st.markdown('</div>', unsafe_allow_html=True)  # login-box
-    st.markdown('</div>', unsafe_allow_html=True)  # main
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # AFTER LOGIN
