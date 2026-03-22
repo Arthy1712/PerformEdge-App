@@ -76,7 +76,7 @@ st.markdown("""
 
 /* Button */
 div.stButton > button {
-    background-color: grey;
+    background-color:#1d4ed8;
     color: black;
     border-radius: 10px;
     height: 50px;
@@ -185,7 +185,7 @@ if not st.session_state.logged_in:
 
     st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
-    st.markdown('<div class="icon">👨‍💼Performedge - Login</div>', unsafe_allow_html=True)
+    st.markdown('<div class="icon">👨‍💼PerformEdge - Login</div>', unsafe_allow_html=True)
 
     username = st.text_input("👤 Username")
     password = st.text_input("🔒 Password", type="password")
