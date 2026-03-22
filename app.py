@@ -159,7 +159,7 @@ if not st.session_state.logged_in:
     )
 
     # 3 COLUMN LAYOUT (LEFT IMAGE - FORM - RIGHT IMAGE)
-    col1, col2, col3 = st.columns([1, 1.5, 1])
+    col1, col2, col3 = st.columns([2, 4, 2])
 
     # LEFT IMAGE
     with col1:
@@ -167,7 +167,6 @@ if not st.session_state.logged_in:
 
     # CENTER FORM
     with col2:
-        st.markdown('<div class="form-box">', unsafe_allow_html=True)
 
         st.markdown('<div class="form-label">Username</div>', unsafe_allow_html=True)
         username = st.text_input("", placeholder="Enter your username")
