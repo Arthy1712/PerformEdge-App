@@ -24,7 +24,7 @@ st.markdown("""
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 20vh;
 }
 
 /* Background */
@@ -76,11 +76,11 @@ st.markdown("""
 
 /* Button */
 div.stButton > button {
-    background-color: #1d4ed8;
-    color: white;
+    background-color: grey;
+    color: black;
     border-radius: 10px;
     height: 50px;
-    width: 100%;
+    width: 200%;
     font-size: 16px;
     font-weight: bold;
     border: none;
@@ -185,7 +185,7 @@ if not st.session_state.logged_in:
 
     st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
-    st.markdown('<div class="icon">👨‍💼</div>', unsafe_allow_html=True)
+    st.markdown('<div class="icon">👨‍💼Performedge - Login</div>', unsafe_allow_html=True)
 
     username = st.text_input("👤 Username")
     password = st.text_input("🔒 Password", type="password")
