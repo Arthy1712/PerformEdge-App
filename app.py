@@ -1,4 +1,4 @@
-here in this code, the login box is not properly placed .it has to be exactly in PerformEdge - Login   ;import streamlit as st
+import streamlit as st
 import sqlite3
 import hashlib
 import streamlit.components.v1 as components
