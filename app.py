@@ -1,4 +1,3 @@
-
 import streamlit as st
 import sqlite3
 import hashlib
@@ -15,68 +14,65 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# CUSTOM CSS (Professional UI)
+# CUSTOM CSS (UPDATED)
 # ----------------------------
 st.markdown("""
 <style>
 
+/* Reduce overall page spacing */
+.block-container {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Font */
 html, body, [class*="css"]  {
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Gradient Background */
+/* Pale Green Background */
 .stApp {
-    background: linear-gradient(135deg, #0F4C81, #3A7BD5, #00C6FF);
+    background: linear-gradient(135deg, #d4f5e9, #b7e4c7, #95d5b2);
 }
 
 /* Company Title */
 .company-title {
-    font-size: 42px;
+    font-size: 40px;
     font-weight: bold;
-    color: black;
+    color: #1b4332;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 /* Subtitle */
 .subtitle {
-    font-size: 20px;
-    color: black;
+    font-size: 18px;
+    color: #2d6a4f;
     text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Login Card */
-.login-container {
-    background: white;
-    padding: 35px;
-    border-radius: 15px;
-    width: 350px;
-    margin: auto;
-    margin-top: 40px;
-    box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
-    text-align: center;
-}
-
-/* Employee Icon */
-.icon {
-    font-size: 36px;
     margin-bottom: 10px;
+}
+
+/* Icon + Title */
+.icon {
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #1b4332;
 }
 
 /* Button Styling */
 div.stButton > button {
-    background-color: #0F4C81;
+    background-color: #2d6a4f;
     color: white;
     border-radius: 8px;
-    height: 45px;
+    height: 42px;
     width: 100%;
     font-weight: bold;
     border: none;
 }
 
 div.stButton > button:hover {
-    background-color: #092f4c;
+    background-color: #1b4332;
 }
 
 </style>
@@ -140,8 +136,8 @@ def show_tableau_dashboard():
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
     components.html(
-        f'<iframe src="{url}" width="100%" height="1000" style="border:none;"></iframe>',
-        height=1000,
+        f'<iframe src="{url}" width="100%" height="900" style="border:none;"></iframe>',
+        height=900,
     )
 
 # ----------------------------
@@ -149,15 +145,10 @@ def show_tableau_dashboard():
 # ----------------------------
 if not st.session_state.logged_in:
 
-    # Company Title
     st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
 
-    # Subtitle
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
 
-    
-
-    # Employee Icon
     st.markdown('<div class="icon">👨‍💼 PerformEdge - Login</div>', unsafe_allow_html=True)
 
     username = st.text_input("👤 Username")
@@ -172,9 +163,6 @@ if not st.session_state.logged_in:
             st.rerun()
         else:
             st.error("❌ Invalid Username or Password")
-
-    # Login Card End
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # AFTER LOGIN
