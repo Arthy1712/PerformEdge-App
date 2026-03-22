@@ -1,4 +1,4 @@
-help me to edit the login page style as professional company page with bg color and images:import streamlit as st
+import streamlit as st
 import sqlite3
 import hashlib
 import streamlit.components.v1 as components
