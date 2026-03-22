@@ -1,3 +1,4 @@
+
 import streamlit as st
 import sqlite3
 import hashlib
@@ -14,87 +15,68 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# PREMIUM UI CSS
+# CUSTOM CSS (Professional UI)
 # ----------------------------
 st.markdown("""
 <style>
 
-/* Global Font */
 html, body, [class*="css"]  {
     font-family: 'Segoe UI', sans-serif;
 }
 
 /* Gradient Background */
 .stApp {
-    background: linear-gradient(135deg, #0F4C81, #1E3C72, #2A5298);
+    background: linear-gradient(135deg, #0F4C81, #3A7BD5, #00C6FF);
 }
 
 /* Company Title */
 .company-title {
-    font-size: 46px;
+    font-size: 42px;
     font-weight: bold;
-    color: white;
+    color: black;
     text-align: center;
     margin-top: 30px;
-    letter-spacing: 1px;
 }
 
 /* Subtitle */
 .subtitle {
     font-size: 20px;
-    color: #e0e0e0;
+    color: black;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
-/* Glassmorphism Login Card */
+/* Login Card */
 .login-container {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    padding: 40px;
-    border-radius: 20px;
-    width: 360px;
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    width: 350px;
     margin: auto;
-    margin-top: 30px;
-    box-shadow: 0px 8px 30px rgba(0,0,0,0.3);
+    margin-top: 40px;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-/* PerformEdge Title */
-.login-title {
-    font-size: 22px;
-    font-weight: bold;
-    color: white;
-    margin-bottom: 15px;
 }
 
 /* Employee Icon */
 .icon {
-    font-size: 55px;
+    font-size: 36px;
     margin-bottom: 10px;
-}
-
-/* Input Styling */
-div[data-baseweb="input"] input {
-    border-radius: 8px !important;
 }
 
 /* Button Styling */
 div.stButton > button {
-    background: linear-gradient(90deg, #00C6FF, #0072FF);
+    background-color: #0F4C81;
     color: white;
-    border-radius: 10px;
+    border-radius: 8px;
     height: 45px;
     width: 100%;
     font-weight: bold;
     border: none;
-    transition: 0.3s;
 }
 
 div.stButton > button:hover {
-    transform: scale(1.03);
-    background: linear-gradient(90deg, #0072FF, #00C6FF);
+    background-color: #092f4c;
 }
 
 </style>
@@ -173,14 +155,10 @@ if not st.session_state.logged_in:
     # Subtitle
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
 
-    # Login Card Start
-    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+    
 
-    # Icon
-    st.markdown('<div class="icon">👨‍💼</div>', unsafe_allow_html=True)
-
-    # PerformEdge Title (NEW)
-    st.markdown('<div class="login-title">📊 PerformEdge Login</div>', unsafe_allow_html=True)
+    # Employee Icon
+    st.markdown('<div class="icon">👨‍💼 PerformEdge - Login</div>', unsafe_allow_html=True)
 
     username = st.text_input("👤 Username")
     password = st.text_input("🔒 Password", type="password")
@@ -195,6 +173,7 @@ if not st.session_state.logged_in:
         else:
             st.error("❌ Invalid Username or Password")
 
+    # Login Card End
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------
