@@ -14,34 +14,25 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# CUSTOM CSS (UPDATED ONLY AS REQUESTED)
+# CUSTOM CSS (ONLY REQUIRED CHANGES)
 # ----------------------------
 st.markdown("""
 <style>
 
-/* Reduce page height & center content */
+/* Reduce page height */
 .block-container {
     padding-top: 0rem !important;
     padding-bottom: 0rem !important;
 }
 
-/* Center content vertically & horizontally */
-.main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90vh;
-    flex-direction: column;
+/* Pale Green Background */
+.stApp {
+    background: linear-gradient(135deg, #d8f3dc, #b7e4c7, #95d5b2);
 }
 
 /* Font */
 html, body, [class*="css"]  {
     font-family: 'Segoe UI', sans-serif;
-}
-
-/* Pale Green Background */
-.stApp {
-    background: linear-gradient(135deg, #d8f3dc, #b7e4c7, #95d5b2);
 }
 
 /* Company Title */
@@ -159,18 +150,22 @@ if not st.session_state.logged_in:
 
     st.markdown('<div class="icon">👨‍💼 PerformEdge - Login</div>', unsafe_allow_html=True)
 
-    username = st.text_input("👤 Username")
-    password = st.text_input("🔒 Password", type="password")
+    # CENTER ALIGN USING COLUMNS
+    col1, col2, col3 = st.columns([1,2,1])
 
-    if st.button("Login"):
-        success, role, employee_id = login(username, password)
-        if success:
-            st.session_state.logged_in = True
-            st.session_state.role = role
-            st.session_state.employee_id = employee_id
-            st.rerun()
-        else:
-            st.error("❌ Invalid Username or Password")
+    with col2:
+        username = st.text_input("👤 Username")
+        password = st.text_input("🔒 Password", type="password")
+
+        if st.button("Login"):
+            success, role, employee_id = login(username, password)
+            if success:
+                st.session_state.logged_in = True
+                st.session_state.role = role
+                st.session_state.employee_id = employee_id
+                st.rerun()
+            else:
+                st.error("❌ Invalid Username or Password")
 
 # ----------------------------
 # AFTER LOGIN
