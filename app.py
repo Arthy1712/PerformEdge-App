@@ -170,11 +170,13 @@ def show_tableau_dashboard():
     else:
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
-    components.html(
-        f'<iframe src="{url}" width="100%" height="1000" style="border:none;"></iframe>',
-        height=1000,
-    )
+    st.success("✅ Login Successful!")
 
+    st.markdown("### 🔗 Open Your Dashboard:")
+    st.markdown(f"[Click here to view dashboard]({url})")
+
+    # OR if you want raw URL display:
+    st.code(url)
 # ----------------------------
 # LOGIN PAGE
 # ----------------------------
