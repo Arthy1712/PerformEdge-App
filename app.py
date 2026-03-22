@@ -24,7 +24,7 @@ st.markdown("""
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 40vh;
 }
 
 /* Background */
