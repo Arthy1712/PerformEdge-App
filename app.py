@@ -13,7 +13,7 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# CUSTOM CSS (PROFESSIONAL UI)
+# CUSTOM CSS
 # ----------------------------
 def add_bg_and_style():
     st.markdown(
@@ -35,7 +35,7 @@ def add_bg_and_style():
         }
 
         .login-title {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: bold;
             color: #1f4037;
         }
@@ -43,7 +43,7 @@ def add_bg_and_style():
         .login-subtitle {
             font-size: 14px;
             color: gray;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         input {
@@ -141,15 +141,21 @@ if not st.session_state.logged_in:
 
     st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
-    st.markdown('<div class="login-title">📊 PerformEdge</div>', unsafe_allow_html=True)
-    st.markdown('<div class="login-subtitle">Employee Performance System</div>', unsafe_allow_html=True)
+    # 🔥 UPDATED BRANDING
+    st.markdown('<div class="login-title">ABC Technologies</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="login-subtitle">PerformEdge - Employee Performance Evaluation System</div>',
+        unsafe_allow_html=True
+    )
 
-    # Logo / Image
+    # Logo
     st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=80)
 
+    # Inputs
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
+    # Login button
     if st.button("Login"):
         success, role, employee_id = login(username, password)
         if success:
@@ -160,13 +166,15 @@ if not st.session_state.logged_in:
         else:
             st.error("❌ Invalid Username or Password")
 
+    # Tagline
     st.markdown(
-        "<p style='text-align:center; color:gray;'>Empowering Performance. Driving Growth.</p>",
+        "<p style='text-align:center; color:gray; font-size:13px;'>Driving Performance • Enabling Growth • Empowering Talent</p>",
         unsafe_allow_html=True
     )
 
+    # Footer
     st.markdown(
-        "<p style='text-align:center; font-size:12px; color:gray;'>© 2026 PerformEdge Inc.</p>",
+        "<p style='text-align:center; font-size:12px; color:gray;'>© 2026 ABC Technologies</p>",
         unsafe_allow_html=True
     )
 
