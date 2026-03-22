@@ -76,19 +76,19 @@ st.markdown("""
 
 /* Button */
 div.stButton > button {
-    background-color:#87CEEB;
-    color: black;
+    background-color:#000000;
+    color: white;
     border-radius: 10px;
     height: 50px;
     width: 200%;
     font-size: 16px;
     font-weight: bold;
-    border-color: black;
+    border-color: white;
     transition: 0.3s;
 }
 
 div.stButton > button:hover {
-    background-color: #1e40af;
+    background-color:#000000;
     transform: scale(1.05);
 }
 
