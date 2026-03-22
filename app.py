@@ -59,7 +59,7 @@ html, body, [class*="css"]  {
 
 /* Employee Icon */
 .icon {
-    font-size: 50px;
+    font-size: 36px;
     margin-bottom: 10px;
 }
 
