@@ -32,7 +32,7 @@ html, body, [class*="css"]  {
 .company-title {
     font-size: 42px;
     font-weight: bold;
-    color: white;
+    color: black;
     text-align: center;
     margin-top: 30px;
 }
@@ -40,7 +40,7 @@ html, body, [class*="css"]  {
 /* Subtitle */
 .subtitle {
     font-size: 20px;
-    color: white;
+    color: black;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -154,8 +154,7 @@ if not st.session_state.logged_in:
     # Subtitle
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
 
-    # Login Card Start
-    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+    
 
     # Employee Icon
     st.markdown('<div class="icon">👨‍💼</div>', unsafe_allow_html=True)
