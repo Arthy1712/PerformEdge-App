@@ -24,7 +24,7 @@ st.markdown("""
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10vh;
+    height: 20vh;
 }
 
 /* Reduce page padding */
