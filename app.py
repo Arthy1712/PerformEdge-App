@@ -24,7 +24,7 @@ st.markdown("""
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 10vh;
 }
 
 /* Reduce page padding */
@@ -151,7 +151,7 @@ def show_tableau_dashboard():
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
     components.html(
-        f'<iframe src="{url}" width="100%" height="1000" style="border:none;"></iframe>',
+        f'<iframe src="{url}" width="100%" height="900" style="border:none;"></iframe>',
         height=1000,
     )
 
@@ -161,7 +161,6 @@ def show_tableau_dashboard():
 if not st.session_state.logged_in:
 
     st.markdown('<div class="main">', unsafe_allow_html=True)
-    st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
     st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
