@@ -3,6 +3,7 @@ import sqlite3
 import hashlib
 import streamlit.components.v1 as components
 import time
+
 # ----------------------------
 # CONFIG
 # ----------------------------
@@ -10,6 +11,66 @@ DB_PATH = "users.db"
 HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard1"
 MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard2"
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
+
+# ----------------------------
+# CUSTOM CSS (PROFESSIONAL UI)
+# ----------------------------
+def add_bg_and_style():
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background: linear-gradient(to right, #1f4037, #99f2c8);
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 350px;
+            margin: auto;
+            margin-top: 100px;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f4037;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        input {
+            border-radius: 8px !important;
+            border: 1px solid #ccc !important;
+            padding: 10px !important;
+        }
+
+        .stButton>button {
+            width: 100%;
+            border-radius: 10px;
+            background-color: #1f4037;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .stButton>button:hover {
+            background-color: #14532d;
+            color: white;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# ----------------------------
 # PASSWORD HASH FUNCTION
 # ----------------------------
 def hash_password(password):
@@ -57,7 +118,7 @@ if "logged_in" not in st.session_state:
 def show_tableau_dashboard():
     role = st.session_state.role
     emp_id = st.session_state.employee_id
-    timestamp = int(time.time())  # prevent caching
+    timestamp = int(time.time())
 
     if role == "Manager":
         url = f"{MANAGER_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
@@ -65,9 +126,6 @@ def show_tableau_dashboard():
         url = f"{EMPLOYEE_TABLEAU_URL}?:embed=true&:showVizHome=no&EmpID={emp_id}&_ts={timestamp}"
     else:
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
-
-    st.write("📌 Dashboard URL being used:")
-    st.write(url)
 
     components.html(
         f'<iframe src="{url}" width="100%" height="1000" style="border:none;"></iframe>',
@@ -78,7 +136,17 @@ def show_tableau_dashboard():
 # LOGIN PAGE
 # ----------------------------
 if not st.session_state.logged_in:
-    st.title("📊 PerformEdge Login")
+
+    add_bg_and_style()
+
+    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+
+    st.markdown('<div class="login-title">📊 PerformEdge</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-subtitle">Employee Performance System</div>', unsafe_allow_html=True)
+
+    # Logo / Image
+    st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=80)
+
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
@@ -88,8 +156,21 @@ if not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.role = role
             st.session_state.employee_id = employee_id
+            st.rerun()
         else:
             st.error("❌ Invalid Username or Password")
+
+    st.markdown(
+        "<p style='text-align:center; color:gray;'>Empowering Performance. Driving Growth.</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; font-size:12px; color:gray;'>© 2026 PerformEdge Inc.</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # AFTER LOGIN
@@ -97,11 +178,10 @@ if not st.session_state.logged_in:
 else:
     st.sidebar.write(f"👤 Logged in as: {st.session_state.role}")
 
-    # Logout button
     if st.sidebar.button("Logout"):
         st.session_state.logged_in = False
         st.session_state.role = None
         st.session_state.employee_id = None
+        st.rerun()
 
-    # Show dashboard
     show_tableau_dashboard()
