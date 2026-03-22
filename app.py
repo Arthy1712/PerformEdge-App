@@ -14,80 +14,100 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# CUSTOM CSS
+# PREMIUM CSS + ANIMATION
 # ----------------------------
 st.markdown("""
 <style>
 
-/* FULL PAGE CENTERING */
+/* FULL CENTER */
 .main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 100vh;
 }
 
-/* Reduce page padding */
+/* Background */
+.stApp {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe, #93c5fd);
+}
+
+/* Remove padding */
 .block-container {
     padding-top: 0rem !important;
     padding-bottom: 0rem !important;
 }
 
-/* Pale Green Background */
-.stApp {
-    background: linear-gradient(135deg, #dbeafe, #bfdbfe, #93c5fd);
-}
-
-/* Font */
-html, body, [class*="css"]  {
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* Login Card */
+/* Glass Card */
 .login-box {
-    background: white;
-    padding: 35px;
-    border-radius: 15px;
-    width: 400px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 18px;
+    width: 420px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+
+    animation: fadeSlide 1s ease;
 }
 
-/* Company Title */
+/* Title */
 .company-title {
     font-size: 42px;
     font-weight: bold;
-    color: black;
     text-align: center;
+    color: #0F172A;
 }
 
 /* Subtitle */
 .subtitle {
-    font-size: 20px;
-    color: black;
+    font-size: 18px;
     text-align: center;
-    margin-bottom: 10px;
+    color: #1e293b;
+    margin-bottom: 15px;
 }
 
-/* Icon */
+/* Animated Employee Icon */
 .icon {
-    font-size: 32px;
+    font-size: 40px;
     text-align: center;
-    margin-bottom: 10px;
+    animation: float 2s ease-in-out infinite;
+    margin-bottom: 15px;
 }
 
-/* Button Styling */
+/* Button */
 div.stButton > button {
-    background-color: #0F4C81;
+    background-color: #1d4ed8;
     color: white;
-    border-radius: 8px;
-    height: 45px;
+    border-radius: 10px;
+    height: 50px;
     width: 100%;
+    font-size: 16px;
     font-weight: bold;
     border: none;
+    transition: 0.3s;
 }
 
 div.stButton > button:hover {
-    background-color: #092f4c;
+    background-color: #1e40af;
+    transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
 }
 
 </style>
@@ -151,7 +171,7 @@ def show_tableau_dashboard():
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
     components.html(
-        f'<iframe src="{url}" width="100%" height="900" style="border:none;"></iframe>',
+        f'<iframe src="{url}" width="100%" height="1000" style="border:none;"></iframe>',
         height=1000,
     )
 
@@ -161,10 +181,11 @@ def show_tableau_dashboard():
 if not st.session_state.logged_in:
 
     st.markdown('<div class="main">', unsafe_allow_html=True)
+    st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
     st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
-    st.markdown('<div class="icon">👨‍💼 PerformEdge - Login</div>', unsafe_allow_html=True)
+    st.markdown('<div class="icon">👨‍💼</div>', unsafe_allow_html=True)
 
     username = st.text_input("👤 Username")
     password = st.text_input("🔒 Password", type="password")
