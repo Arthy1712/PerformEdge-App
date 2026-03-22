@@ -14,15 +14,24 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# CUSTOM CSS (UPDATED)
+# CUSTOM CSS (UPDATED ONLY AS REQUESTED)
 # ----------------------------
 st.markdown("""
 <style>
 
-/* Reduce overall page spacing */
+/* Reduce page height & center content */
 .block-container {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1rem !important;
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
+
+/* Center content vertically & horizontally */
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    flex-direction: column;
 }
 
 /* Font */
@@ -32,47 +41,46 @@ html, body, [class*="css"]  {
 
 /* Pale Green Background */
 .stApp {
-    background: linear-gradient(135deg, #d4f5e9, #b7e4c7, #95d5b2);
+    background: linear-gradient(135deg, #d8f3dc, #b7e4c7, #95d5b2);
 }
 
 /* Company Title */
 .company-title {
-    font-size: 40px;
+    font-size: 42px;
     font-weight: bold;
-    color: #1b4332;
+    color: black;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 /* Subtitle */
 .subtitle {
-    font-size: 18px;
-    color: #2d6a4f;
+    font-size: 20px;
+    color: black;
     text-align: center;
     margin-bottom: 10px;
 }
 
-/* Icon + Title */
+/* Employee Icon */
 .icon {
-    font-size: 22px;
-    text-align: center;
+    font-size: 36px;
     margin-bottom: 10px;
-    color: #1b4332;
+    text-align: center;
 }
 
 /* Button Styling */
 div.stButton > button {
-    background-color: #2d6a4f;
+    background-color: #0F4C81;
     color: white;
     border-radius: 8px;
-    height: 42px;
+    height: 45px;
     width: 100%;
     font-weight: bold;
     border: none;
 }
 
 div.stButton > button:hover {
-    background-color: #1b4332;
+    background-color: #092f4c;
 }
 
 </style>
@@ -136,8 +144,8 @@ def show_tableau_dashboard():
         url = f"{HR_TABLEAU_URL}?:embed=true&:showVizHome=no&_ts={timestamp}"
 
     components.html(
-        f'<iframe src="{url}" width="100%" height="900" style="border:none;"></iframe>',
-        height=900,
+        f'<iframe src="{url}" width="100%" height="1000" style="border:none;"></iframe>',
+        height=1000,
     )
 
 # ----------------------------
