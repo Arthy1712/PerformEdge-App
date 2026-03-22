@@ -19,81 +19,52 @@ def add_bg_and_style():
     st.markdown(
         """
         <style>
-
-        /* Remove extra spacing */
-        .block-container {
-            padding-top: 1rem;
-            padding-bottom: 0rem;
-        }
-
-        /* 🔥 GRADIENT BACKGROUND */
+        /* Sky Blue Background */
         .stApp {
-            background: linear-gradient(135deg, #74ebd5, #4facfe);
-            height: 100vh;
-            overflow: hidden;
+            background-color: #87CEEB;
         }
 
-        /* COMPANY TITLE */
-        .company-title {
-            text-align: center;
-            font-size: 52px;
-            font-weight: 800;
-            color: #1f2d3d;
-            margin-bottom: 5px;
+        /* Container (no card look, like your image) */
+        .login-container {
+            padding: 60px;
+            width: 60%;
+            margin: auto;
+            margin-top: 50px;
         }
 
-        /* SUBTITLE */
-        .company-subtitle {
-            text-align: center;
-            font-size: 16px;
-            font-weight: 500;
+        /* Title */
+        .login-title {
+            font-size: 42px;
+            font-weight: 700;
             color: #2c3e50;
+        }
+
+        /* Subtitle */
+        .login-subtitle {
+            font-size: 16px;
+            color: #555;
             margin-bottom: 25px;
         }
 
-        /* LOGIN AREA */
-        .login-container {
-            width: 60%;
-            margin: auto;
-            margin-top: 10px;
-        }
-
-        /* FORM BOX */
-        .form-box {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 25px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        /* LABEL */
-        .form-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        /* INPUT */
+        /* Inputs */
         input {
             border-radius: 10px !important;
-            padding: 10px !important;
-            margin-bottom: 10px;
+            border: 1px solid #ccc !important;
+            padding: 12px !important;
         }
 
-        /* BUTTON */
+        /* Button */
         .stButton>button {
             border-radius: 10px;
-            background-color: #ffffff;
+            background-color: white;
             color: #2c3e50;
-            padding: 8px 20px;
-            font-weight: 600;
             border: 1px solid #ccc;
+            padding: 8px 25px;
         }
 
         .stButton>button:hover {
             background-color: #f0f0f0;
         }
-
         </style>
         """,
         unsafe_allow_html=True
@@ -168,23 +139,27 @@ if not st.session_state.logged_in:
 
     add_bg_and_style()
 
-    # 🔥 HEADER
-    st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+
+    # 🔥 Title with icon (like your image)
+    col1, col2 = st.columns([1, 8])
+
+    with col1:
+        st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=50)
+
+    with col2:
+        st.markdown('<div class="login-title">PerformEdge Login</div>', unsafe_allow_html=True)
+
     st.markdown(
-        '<div class="company-subtitle">PerformEdge - Employee Performance Evaluation System</div>',
+        '<div class="login-subtitle">ABC Technologies - Employee Performance Evaluation System</div>',
         unsafe_allow_html=True
     )
 
-    # LOGIN FORM
-    st.markdown('<div class="login-container">', unsafe_allow_html=True)
-    st.markdown('<div class="form-box">', unsafe_allow_html=True)
+    # Inputs
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
 
-    st.markdown('<div class="form-label">Username</div>', unsafe_allow_html=True)
-    username = st.text_input("", placeholder="Enter your username")
-
-    st.markdown('<div class="form-label">Password</div>', unsafe_allow_html=True)
-    password = st.text_input("", type="password", placeholder="Enter your password")
-
+    # Button
     if st.button("Login"):
         success, role, employee_id = login(username, password)
         if success:
@@ -193,9 +168,8 @@ if not st.session_state.logged_in:
             st.session_state.employee_id = employee_id
             st.rerun()
         else:
-            st.error("Invalid Username or Password")
+            st.error("❌ Invalid Username or Password")
 
-    st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------
