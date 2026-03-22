@@ -35,7 +35,7 @@ st.markdown("""
 
 /* Pale Green Background */
 .stApp {
-    background: linear-gradient(135deg, #d8f3dc, #b7e4c7, #95d5b2);
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe, #93c5fd);
 }
 
 /* Font */
