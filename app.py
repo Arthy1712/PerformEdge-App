@@ -14,17 +14,17 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# PREMIUM CSS + ANIMATION
+# CSS (FIXED ALIGNMENT)
 # ----------------------------
 st.markdown("""
 <style>
 
-/* FULL CENTER */
+/* Center container BELOW title */
 .main {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 20vh;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
 /* Background */
@@ -38,7 +38,7 @@ st.markdown("""
     padding-bottom: 0rem !important;
 }
 
-/* Glass Card */
+/* Login Card */
 .login-box {
     background: rgba(255, 255, 255, 0.85);
     padding: 40px;
@@ -46,7 +46,6 @@ st.markdown("""
     width: 420px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     backdrop-filter: blur(10px);
-
     animation: fadeSlide 1s ease;
 }
 
@@ -63,32 +62,31 @@ st.markdown("""
     font-size: 18px;
     text-align: center;
     color: #1e293b;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
-/* Animated Employee Icon */
+/* Icon */
 .icon {
     font-size: 40px;
     text-align: center;
     animation: float 2s ease-in-out infinite;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 /* Button */
 div.stButton > button {
-    background-color:#000000;
+    background-color: #000000;
     color: white;
     border-radius: 20px;
     height: 50px;
-    width: 200%;
+    width: 100%;
     font-size: 16px;
     font-weight: bold;
-    border-color: white;
+    border: none;
     transition: 0.3s;
 }
 
 div.stButton > button:hover {
-    background-color:#000000;
     transform: scale(1.05);
 }
 
@@ -180,12 +178,13 @@ def show_tableau_dashboard():
 # ----------------------------
 if not st.session_state.logged_in:
 
-    st.markdown('<div class="main">', unsafe_allow_html=True)
-    st.markdown('<div class="login-box">', unsafe_allow_html=True)
-
     st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
-    st.markdown('<div class="icon">👨‍💼PerformEdge - Login</div>', unsafe_allow_html=True)
+    st.markdown('<div class="icon">👨‍💼</div>', unsafe_allow_html=True)
+    st.markdown('<div class="subtitle">PerformEdge - Login</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="main">', unsafe_allow_html=True)
+    st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
     username = st.text_input("👤 Username")
     password = st.text_input("🔒 Password", type="password")
