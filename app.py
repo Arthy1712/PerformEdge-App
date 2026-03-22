@@ -83,7 +83,7 @@ div.stButton > button {
     width: 200%;
     font-size: 16px;
     font-weight: bold;
-    border: none;
+    border-color: black;
     transition: 0.3s;
 }
 
