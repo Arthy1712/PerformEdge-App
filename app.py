@@ -7,9 +7,9 @@ import time
 # CONFIG
 # ----------------------------
 DB_PATH = "users.db"
-HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-DBtill21/Dashboard1"
-MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-DBtill21/Dashboard2"
-EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-DBtill21/Dashboard3"
+HR_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard1"
+MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard2"
+EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 # PASSWORD HASH FUNCTION
 # ----------------------------
 def hash_password(password):
