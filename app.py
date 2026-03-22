@@ -14,12 +14,20 @@ MANAGER_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboa
 EMPLOYEE_TABLEAU_URL = "https://public.tableau.com/views/PerformEdge-FinalDashboard/Dashboard3"
 
 # ----------------------------
-# CUSTOM CSS (ONLY REQUIRED CHANGES)
+# CUSTOM CSS
 # ----------------------------
 st.markdown("""
 <style>
 
-/* Reduce page height */
+/* FULL PAGE CENTERING */
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Reduce page padding */
 .block-container {
     padding-top: 0rem !important;
     padding-bottom: 0rem !important;
@@ -35,13 +43,21 @@ html, body, [class*="css"]  {
     font-family: 'Segoe UI', sans-serif;
 }
 
+/* Login Card */
+.login-box {
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    width: 400px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
 /* Company Title */
 .company-title {
     font-size: 42px;
     font-weight: bold;
     color: black;
     text-align: center;
-    margin-top: 0px;
 }
 
 /* Subtitle */
@@ -52,11 +68,11 @@ html, body, [class*="css"]  {
     margin-bottom: 10px;
 }
 
-/* Employee Icon */
+/* Icon */
 .icon {
-    font-size: 36px;
-    margin-bottom: 10px;
+    font-size: 32px;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 /* Button Styling */
@@ -144,28 +160,28 @@ def show_tableau_dashboard():
 # ----------------------------
 if not st.session_state.logged_in:
 
+    st.markdown('<div class="main">', unsafe_allow_html=True)
+    st.markdown('<div class="login-box">', unsafe_allow_html=True)
+
     st.markdown('<div class="company-title">ABC Technologies</div>', unsafe_allow_html=True)
-
     st.markdown('<div class="subtitle">Employee Performance Evaluation System</div>', unsafe_allow_html=True)
-
     st.markdown('<div class="icon">👨‍💼 PerformEdge - Login</div>', unsafe_allow_html=True)
 
-    # CENTER ALIGN USING COLUMNS
-    col1, col2, col3 = st.columns([1,2,1])
+    username = st.text_input("👤 Username")
+    password = st.text_input("🔒 Password", type="password")
 
-    with col2:
-        username = st.text_input("👤 Username")
-        password = st.text_input("🔒 Password", type="password")
+    if st.button("Login"):
+        success, role, employee_id = login(username, password)
+        if success:
+            st.session_state.logged_in = True
+            st.session_state.role = role
+            st.session_state.employee_id = employee_id
+            st.rerun()
+        else:
+            st.error("❌ Invalid Username or Password")
 
-        if st.button("Login"):
-            success, role, employee_id = login(username, password)
-            if success:
-                st.session_state.logged_in = True
-                st.session_state.role = role
-                st.session_state.employee_id = employee_id
-                st.rerun()
-            else:
-                st.error("❌ Invalid Username or Password")
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------
 # AFTER LOGIN
